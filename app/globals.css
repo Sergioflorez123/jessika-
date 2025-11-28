@@ -24,3 +24,95 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.bg-maze {
+  background-color: #0b0d1a;
+  background-image:
+    linear-gradient(0deg, rgba(43,208,255,0.18) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(43,208,255,0.18) 2px, transparent 2px);
+  background-size: 32px 32px, 32px 32px;
+}
+
+.neon-title {
+  color: #ffd500;
+  text-shadow: 0 0 6px rgba(255,213,0,0.7), 0 0 16px rgba(255,213,0,0.35);
+  font-weight: 900;
+}
+
+.neon-by {
+  color: #2bd0ff;
+  text-shadow: 0 0 8px rgba(43,208,255,0.8), 0 0 18px rgba(43,208,255,0.4);
+}
+
+.press-start {
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink { to { opacity: 0.25; } }
+
+/* Fantasmas recorriendo el borde */
+.ghost {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px currentColor;
+}
+.ghost-run {
+  top: 0; left: 0;
+  animation: runBorder 8s linear infinite;
+}
+.ghost-red { color: #ff2f2f; }
+.ghost-pink { color: #ff6db6; }
+.ghost-cyan { color: #2bd0ff; }
+.ghost-orange { color: #ffb847; }
+
+@keyframes runBorder {
+  0% { transform: translate(0, 0); }
+  24% { transform: translate(calc(100vw - 24px), 0); }
+  25% { transform: translate(calc(100vw - 24px), 0); }
+  49% { transform: translate(calc(100vw - 24px), calc(100vh - 24px)); }
+  50% { transform: translate(calc(100vw - 24px), calc(100vh - 24px)); }
+  74% { transform: translate(0, calc(100vh - 24px)); }
+  75% { transform: translate(0, calc(100vh - 24px)); }
+  100% { transform: translate(0, 0); }
+}
+
+/* HUD */
+.hud {
+  color: #2bd0ff;
+}
+
+.bg-maze {
+  background-color: #0b0d1a;
+  background-image:
+    linear-gradient(0deg, rgba(43,208,255,0.15) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(43,208,255,0.15) 2px, transparent 2px),
+    radial-gradient(circle at 4px 4px, rgba(255,213,0,0.2) 2px, transparent 3px);
+  background-size: 32px 32px, 32px 32px, 16px 16px;
+}
+
+.neon-title {
+  color: #ffd500;
+  text-shadow: 0 0 6px rgba(255,213,0,0.6), 0 0 14px rgba(255,213,0,0.3);
+  font-weight: 900;
+}
+
+.neon-by {
+  color: #2bd0ff;
+  text-shadow: 0 0 6px rgba(43,208,255,0.7), 0 0 14px rgba(43,208,255,0.35);
+}
+
+.ghost {
+  position: absolute;
+  font-size: 2rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+  animation: float 6s ease-in-out infinite;
+}
+
+.ghost-red { color: #ff2f2f; text-shadow: 0 0 8px rgba(255,47,47,0.6); }
+.ghost-pink { color: #ff6db6; text-shadow: 0 0 8px rgba(255,109,182,0.6); }
+.ghost-cyan { color: #2bd0ff; text-shadow: 0 0 8px rgba(43,208,255,0.6); }
+.ghost-orange { color: #ffb847; text-shadow: 0 0 8px rgba(255,184,71,0.6); }
+
+@keyframes float { 0% { transform: translateY(0) } 100% { transform: translateY(-8px) } }
