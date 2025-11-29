@@ -26,17 +26,17 @@ const levels: Level[] = [
   },
   {
     id: 2,
-    title: "Gato en la luna",
-    description: "Un retrato nostálgico que habla de sueños inmensos y la ilusión que provocan las cosas más pequeñas.",
-    tip: "Inspiración: Los sueños y la ilusión que me dan las cosas.",
-    image: "/level2.jpg",
-  },
-  {
-    id: 3,
     title: "Rosa con espinas",
     description: "La dualidad entre una belleza impecable y el dolor que surge cuando no se toma con cuidado.",
     tip: "Inspiración: La belleza de las cosas pero que llegan a lastimar si no se toman con cuidado.",
     image: "/level3.jpg",
+  },
+  {
+    id: 3,
+    title: "Gato en la luna",
+    description: "Un retrato nostálgico que habla de sueños inmensos y la ilusión que provocan las cosas más pequeñas.",
+    tip: "Inspiración: Los sueños y la ilusión que me dan las cosas.",
+    image: "/level2.jpg",
   },
   {
     id: 4,
@@ -394,6 +394,7 @@ function FinalScreen() {
           </div>
         </div>
         <p className="final-subtitle">Pac-Man devoró el mensaje completo. ¿Insertas otra moneda?</p>
+        <p className="final-highlight">lo que comenzo como un intento , hoy es una obra nitida y llena de intencion.</p>
         <Link
           href="/"
           className="inline-block px-8 py-3 border-4 border-yellow-300 text-yellow-200 font-bold tracking-[0.3em] uppercase hover:scale-105 transition-transform"
