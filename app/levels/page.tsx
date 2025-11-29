@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 
+type StyleWithVars = CSSProperties & { [key: `--${string}`]: string | number };
+
 type Level = {
   id: number;
   title: string;
@@ -290,11 +292,11 @@ function FinalScreen() {
   const thanksLetters = useMemo(() => "MUCHAS GRACIAS".split(""), []);
   const pacmanDuration = Math.max(2.2, thanksLetters.length * 0.12);
   const letterDisappearDelay = Math.max(pacmanDuration - 0.4, 0);
-  const pacmanStyle = useMemo<CSSProperties>(
+  const pacmanStyle = useMemo<StyleWithVars>(
     () => ({ ["--pacwalk-duration" as const]: `${pacmanDuration}s` }),
     [pacmanDuration],
   );
-  const thanksTrackStyle = useMemo<CSSProperties>(
+  const thanksTrackStyle = useMemo<StyleWithVars>(
     () => ({ ["--letters-delay" as const]: `${letterDisappearDelay}s` }),
     [letterDisappearDelay],
   );
@@ -342,7 +344,7 @@ function FinalScreen() {
                   ["--particle-x" as const]: `${particle.x}px`,
                   ["--particle-y" as const]: `${particle.y}px`,
                   ["--particle-delay" as const]: `${particle.delay}ms`,
-                }}
+                } as StyleWithVars}
               />
             ))}
           </div>
