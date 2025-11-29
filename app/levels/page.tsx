@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
 type StyleWithVars = CSSProperties & { [key: `--${string}`]: string | number };
@@ -220,6 +220,47 @@ type HeartRatingProps = {
 };
 
 function HeartRating({ value, onRate }: HeartRatingProps) {
+  const audioRef = useRef<null | { ctx: AudioContext; gain: GainNode }>(null);
+  const playPac = (level: number) => {
+    if (typeof window === "undefined") return;
+    const AC = window.AudioContext || (window as Window & { webkitAudioContext?: typeof window.AudioContext }).webkitAudioContext;
+    if (!AC) return;
+    let engine = audioRef.current;
+    if (!engine) {
+      const ctx = new AC();
+      const gain = ctx.createGain();
+      gain.gain.value = 0.08;
+      gain.connect(ctx.destination);
+      engine = { ctx, gain };
+      audioRef.current = engine;
+    }
+    void engine.ctx.resume();
+    const now = engine.ctx.currentTime;
+    const base = 240 + level * 20;
+    const step = (startFreq: number, t: number) => {
+      const osc = engine.ctx.createOscillator();
+      const filter = engine.ctx.createBiquadFilter();
+      const env = engine.ctx.createGain();
+      osc.type = "square";
+      osc.frequency.setValueAtTime(startFreq, t);
+      osc.frequency.exponentialRampToValueAtTime(startFreq * 1.4, t + 0.12);
+      filter.type = "bandpass";
+      filter.Q.value = 0.9;
+      filter.frequency.setValueAtTime(800, t);
+      filter.frequency.linearRampToValueAtTime(1800, t + 0.12);
+      env.gain.setValueAtTime(0, t);
+      env.gain.linearRampToValueAtTime(1, t + 0.02);
+      env.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+      osc.connect(filter);
+      filter.connect(env);
+      env.connect(engine!.gain);
+      osc.start(t);
+      osc.stop(t + 0.2);
+    };
+    step(base, now);
+    step(base * 0.9, now + 0.12);
+  };
+
   return (
     <div className="heart-rating" role="radiogroup" aria-label="Calificación con corazones">
       {[1, 2, 3, 4, 5].map((heart) => (
@@ -227,7 +268,10 @@ function HeartRating({ value, onRate }: HeartRatingProps) {
           key={heart}
           type="button"
           className={`heart ${heart <= value ? "active" : ""}`}
-          onClick={() => onRate(heart)}
+          onClick={() => {
+            playPac(heart);
+            onRate(heart);
+          }}
           aria-pressed={heart <= value}
           aria-label={`${heart} ${heart === 1 ? "corazón" : "corazones"}`}
         >
